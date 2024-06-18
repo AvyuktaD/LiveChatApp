@@ -1,8 +1,30 @@
 <html>
     <head>
         <title>Chat App</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
-        <script src="chat.js"></script>
+        <meta charset="utf-8">
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>-->
+        <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            var socket = io('http://127.0.0.1:80');
+            console.log("HI")
+
+            document.addEventListener("DOMContentLoaded",function(){
+                var button = document.getElementById('send');
+
+                button.addEventListener('click',function(){
+                    console.log("Button clicked");
+
+                    socket.emit('my_event', {data : "I am connected"});
+                });
+
+                socket.on('connect',function(){
+                    console.log("This is the socket")
+                    console.log(socket)
+                });
+
+            });
+
+        </script>
     </head>
     <body>
         <input type="text" id="message"></input>
