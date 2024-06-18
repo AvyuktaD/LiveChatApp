@@ -11,11 +11,15 @@
             document.addEventListener("DOMContentLoaded",function(){
                 var button = document.getElementById('send');
 
-                button.addEventListener('click',function(){
-                    console.log("Button clicked");
 
-                    socket.emit('my_event', {data : "I am connected"});
-                });
+                button.onclick = function() {
+
+                    console.log("Button clicked");
+                    var inputElement = document.getElementById('message');
+                    var inputValue = inputElement.value;
+
+                    socket.emit('my_event', {data : inputValue});
+                }
 
                 socket.on('connect',function(){
                     console.log("This is the socket")
@@ -27,7 +31,9 @@
         </script>
     </head>
     <body>
-        <input type="text" id="message"></input>
-        <button id="send">send</button>
+            <input type="text" id="message" placeholder="EnterSomething"></input>
+            <button id="send" type="submit">send</button>
+        
+
     </body>
 </html>
