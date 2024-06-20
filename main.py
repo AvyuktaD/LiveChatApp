@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for,redirect
 from flask_socketio import SocketIO, emit
+from backend import db
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
