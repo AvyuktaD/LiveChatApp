@@ -14,10 +14,10 @@
                 button.onclick = function() {
 
                     console.log("Button clicked");
-                    var inputElement = document.getElementById('message');
-                    var inputValue = inputElement.value;
+                    let inputElement = document.getElementById('message');
+                    let inputValue = inputElement.value;
 
-                    socket.emit('my_event', {data : inputValue});
+                    socket.emit('my_event', {json : inputValue});
                 }
 
                 socket.on('connect',function(){

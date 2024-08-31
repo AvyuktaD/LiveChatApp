@@ -1,5 +1,5 @@
-from flask import Flask, render_template, url_for,redirect,request
-from flask_socketio import SocketIO, emit
+from flask import Flask, render_template, url_for,redirect,request,session
+from flask_socketio import SocketIO, emit,send
 from backend import db
 
 app = Flask(__name__)
@@ -21,11 +21,11 @@ def info():
         user = request.form['user']
         email = request.form['email']
         user_Info = db.signUp(user,email)
+        session['user'] = request.form['user']
         if user_Info:
             return redirect(url_for('home'))
         else:
             return redirect(url_for('home'))
-
 
 @socketio.on('connect')
 def connect():
@@ -36,9 +36,18 @@ def disconnect():
     print("Disconnect")
 
 @socketio.on('my_event')
-def handle_message(data):
-    print(f'received message: {data}')
-    emit(f'the date is {data}')
+def handle_message(json):
+    print(f'received message: {json}')
+    emit(f'the date is',json)
+
+    if "user" in session:
+        user_message = db.addMessage({"username" : session['user']}, {"message" : json})
+        if user_message:
+            return True
+        else:
+            return False
+    else:
+        return False
 
 if __name__ == '__main__':
     socketio.run(app, debug=True, port=80)
