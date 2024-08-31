@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from datetime import datetime
 
 try:
     URL = "mongodb://localhost:27017/LiveChatRoom"
@@ -6,7 +7,8 @@ try:
     db = client.get_database()
 
     usersCollection = db['users']
-    
+    messageCollection = db['messages']
+
     def signUp(userName,email):
         user = usersCollection.find({"username":userName})
         a = []
@@ -22,6 +24,17 @@ try:
                 return True
             else:
                 return False
+        else:
+            return False
+        
+    def addMessage(userName,message):
+        date = datetime.today()
+
+        message_info = {"username":userName,"message":message,"date":date}
+        insert_message = messageCollection.insert_one(message_info)
+
+        if insert_message:
+            return True
         else:
             return False
 
